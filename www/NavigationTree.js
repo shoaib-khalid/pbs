@@ -98,6 +98,14 @@ Ext.define('PBS.store.NavigationStore', {
 		],
 	    },
 	    {
+		text: "Cloud Backup",
+		iconCls: 'pbs-icon-tape',
+		id: 'cloud_management',
+		path: 'pbsCloudManagement',
+		expanded: true,
+		children: [],
+	    },
+		{
 		text: "Tape Backup",
 		iconCls: 'pbs-icon-tape',
 		id: 'tape_management',
