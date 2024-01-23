@@ -14,6 +14,7 @@ pub mod changer;
 pub mod drive;
 pub mod media;
 pub mod restore;
+pub mod kalsym;
 
 #[api(
     input: {
