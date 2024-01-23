@@ -39,6 +39,21 @@ pub fn scan_drives(_param: Value) -> Result<Vec<TapeDeviceInfo>, Error> {
         properties: {},
     },
     returns: {
+        description: "hello take kalsym",
+        type: String,
+    },
+)]
+/// List kalsym jobs
+pub fn run_tape_kalsym(_param: Value) -> Result<String, Error> {
+    Ok("/tape/run hello-tape-run".to_string())
+}
+
+
+#[api(
+    input: {
+        properties: {},
+    },
+    returns: {
         description: "The list of autodetected tape changers.",
         type: Array,
         items: {
@@ -55,6 +70,7 @@ pub fn scan_changers(_param: Value) -> Result<Vec<TapeDeviceInfo>, Error> {
 
 const SUBDIRS: SubdirMap = &[
     ("backup", &backup::ROUTER),
+    ("kalsym", &kalsym::ROUTER),
     ("changer", &changer::ROUTER),
     ("drive", &drive::ROUTER),
     ("media", &media::ROUTER),
@@ -62,6 +78,10 @@ const SUBDIRS: SubdirMap = &[
     (
         "scan-changers",
         &Router::new().get(&API_METHOD_SCAN_CHANGERS),
+    ),
+    (
+        "run",
+        &Router::new().get(&API_METHOD_RUN_TAPE_KALSYM),
     ),
     ("scan-drives", &Router::new().get(&API_METHOD_SCAN_DRIVES)),
 ];
