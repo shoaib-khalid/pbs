@@ -46,7 +46,7 @@ pub fn scan_drives(_param: Value) -> Result<Vec<TapeDeviceInfo>, Error> {
 )]
 /// List kalsym jobs
 pub fn run_tape_kalsym(_param: Value) -> Result<String, Error> {
-    Ok("/tape/run hello-tape-run".to_string())
+    Ok("/tape/run hello-tape-run from FAWAD".to_string())
 }
 
 
