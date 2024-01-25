@@ -26,7 +26,7 @@ const SUBDIRS: SubdirMap = &[
         "cloud-hello",
         &Router::new().get(&API_METHOD_CLOUD_HELLO),
     ),
-    ("scan-drives", &Router::new().get(&API_METHOD_SCAN_DRIVES)),
+    //("scan-drives", &Router::new().get(&API_METHOD_SCAN_DRIVES)),
 ];
 
 pub const ROUTER: Router = Router::new()
