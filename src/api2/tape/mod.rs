@@ -14,7 +14,6 @@ pub mod changer;
 pub mod drive;
 pub mod media;
 pub mod restore;
-pub mod kalsym;
 
 #[api(
     input: {
@@ -40,7 +39,7 @@ pub fn scan_drives(_param: Value) -> Result<Vec<TapeDeviceInfo>, Error> {
         properties: {},
     },
     returns: {
-        description: "hello take kalsym",
+        description: "hello tape kalsym",
         type: String,
     },
 )]
@@ -71,7 +70,6 @@ pub fn scan_changers(_param: Value) -> Result<Vec<TapeDeviceInfo>, Error> {
 
 const SUBDIRS: SubdirMap = &[
     ("backup", &backup::ROUTER),
-    ("kalsym", &kalsym::ROUTER),
     ("changer", &changer::ROUTER),
     ("drive", &drive::ROUTER),
     ("media", &media::ROUTER),
