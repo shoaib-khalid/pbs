@@ -430,7 +430,7 @@ pub struct TapeBackupJobStatus {
             type: CloudBackupJobConfig,
         },
         status: {
-            type: CloudScheduleStatus,
+            type: JobScheduleStatus,
         },
     },
 )]
