@@ -424,28 +424,28 @@ pub struct CloudBackupJobConfig {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub schedule: Option<String>,
 }
-// #[api(
-//     properties: {
-//         config: {
-//             type: CloudBackupJobConfig,
-//         },
-//         status: {
-//             type: JobScheduleStatus,
-//         },
-//     },
-// )]
-// #[derive(Serialize, Deserialize, Clone, PartialEq)]
-// #[serde(rename_all = "kebab-case")]
-// /// Status of Cloud Backup Job; Added by SK
-// pub struct CloudBackupJobStatus {
-//     #[serde(flatten)]
-//     pub config: CloudBackupJobConfig,
-//     #[serde(flatten)]
-//     pub status: JobScheduleStatus,
-//     /// Next tape used (best guess)
-//     #[serde(skip_serializing_if = "Option::is_none")]
-//     pub next_media_label: Option<String>,
-// }
+#[api(
+    properties: {
+        config: {
+            type: CloudBackupJobConfig,
+        },
+        status: {
+            type: JobScheduleStatus,
+        },
+    },
+)]
+#[derive(Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "kebab-case")]
+/// Status of Cloud Backup Job; Added by SK
+pub struct CloudBackupJobStatus {
+    #[serde(flatten)]
+    pub config: CloudBackupJobConfig,
+    #[serde(flatten)]
+    pub status: JobScheduleStatus,
+    /// Next tape used (best guess)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub next_media_label: Option<String>,
+}
 
 #[derive(Clone, Debug)]
 /// Filter for matching `BackupGroup`s, for use with `BackupGroup::filter`.
