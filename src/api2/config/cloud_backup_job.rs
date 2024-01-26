@@ -310,7 +310,7 @@ pub fn delete_cloud_backup_job(
         crate::tools::detect_modified_configuration_file(&digest, &expected_digest)?;
     }
 
-    match config.lookup::<BackupJobConfig>("backup", &id) {
+    match config.lookup::<CloudBackupJobConfig>("backup", &id) {
         Ok(_job) => {
             config.sections.remove(&id);
         }
