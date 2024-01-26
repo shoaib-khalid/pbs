@@ -373,6 +373,7 @@ pub struct CloudBackupJobSetup {
         },
     }
 )]
+
 #[derive(Serialize, Deserialize, Clone, Updater, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 /// Tape Backup Job
@@ -381,20 +382,6 @@ pub struct TapeBackupJobConfig {
     pub id: String,
     #[serde(flatten)]
     pub setup: TapeBackupJobSetup,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub comment: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub schedule: Option<String>,
-}
-
-#[derive(Serialize, Deserialize, Clone, Updater, PartialEq)]
-#[serde(rename_all = "kebab-case")]
-/// Cloud Backup Job; Added by SK
-pub struct CloudBackupJobConfig {
-    #[updater(skip)]
-    pub id: String,
-    #[serde(flatten)]
-    pub setup: CloudBackupJobSetup,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub comment: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -424,6 +411,19 @@ pub struct TapeBackupJobStatus {
     pub next_media_label: Option<String>,
 }
 
+#[derive(Serialize, Deserialize, Clone, Updater, PartialEq)]
+#[serde(rename_all = "kebab-case")]
+/// Cloud Backup Job; Added by SK
+pub struct CloudBackupJobConfig {
+    #[updater(skip)]
+    pub id: String,
+    #[serde(flatten)]
+    pub setup: CloudBackupJobSetup,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub comment: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub schedule: Option<String>,
+}
 #[api(
     properties: {
         config: {
