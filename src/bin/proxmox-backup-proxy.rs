@@ -43,7 +43,7 @@ use pbs_buildcfg::configdir;
 use proxmox_time::CalendarEvent;
 
 use pbs_api_types::{
-    Authid, DataStoreConfig, Operation, PruneJobConfig, SyncJobConfig, TapeBackupJobConfig,
+    Authid, DataStoreConfig, Operation, PruneJobConfig, SyncJobConfig, TapeBackupJobConfig, CloudBackupJobConfig,
     VerificationJobConfig,
 };
 
@@ -711,6 +711,8 @@ async fn schedule_tape_backup_jobs() {
         };
     }
 }
+
+//Todo: write a schedule_cloud_backup_jobs
 
 async fn schedule_task_log_rotate() {
     let worker_type = "logrotate";
