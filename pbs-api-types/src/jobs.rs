@@ -374,6 +374,25 @@ pub struct CloudBackupJobSetup {
     }
 )]
 
+#[api(
+    properties: {
+        id: {
+            schema: JOB_ID_SCHEMA,
+        },
+        setup: {
+            type: CloudBackupJobSetup,
+        },
+        comment: {
+            optional: true,
+            schema: SINGLE_LINE_COMMENT_SCHEMA,
+        },
+        schedule: {
+            optional: true,
+            schema: SYNC_SCHEDULE_SCHEMA,
+        },
+    }
+)]
+
 #[derive(Serialize, Deserialize, Clone, Updater, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 /// Tape Backup Job
