@@ -417,6 +417,7 @@ pub struct TapeBackupJobStatus {
             schema: JOB_ID_SCHEMA,
         },
         cloud_setup: {
+            optional: true,
             type: CloudBackupJobSetup,
         },
         comment: {
