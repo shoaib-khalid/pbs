@@ -361,7 +361,7 @@ pub struct CloudBackupJobSetup {
             schema: JOB_ID_SCHEMA,
         },
         setup: {
-            type: TapeBackupJobSetup,
+            type: TapeBackupJobSetup, CloudBackupJobSetup,
         },
         comment: {
             optional: true,
