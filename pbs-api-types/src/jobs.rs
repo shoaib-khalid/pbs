@@ -363,9 +363,6 @@ pub struct CloudBackupJobSetup {
         setup: {
             type: TapeBackupJobSetup,
         },
-        cloud_setup: {
-            type: CloudBackupJobSetup,
-        }
         comment: {
             optional: true,
             schema: SINGLE_LINE_COMMENT_SCHEMA,
@@ -414,6 +411,24 @@ pub struct TapeBackupJobStatus {
 }
 
 
+#[api(
+    properties: {
+        id: {
+            schema: JOB_ID_SCHEMA,
+        },
+        cloud_setup: {
+            type: CloudBackupJobSetup,
+        },
+        comment: {
+            optional: true,
+            schema: SINGLE_LINE_COMMENT_SCHEMA,
+        },
+        schedule: {
+            optional: true,
+            schema: SYNC_SCHEDULE_SCHEMA,
+        },
+    }
+)]
 #[derive(Serialize, Deserialize, Clone, Updater, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 /// Cloud Backup Job; Added by SK
