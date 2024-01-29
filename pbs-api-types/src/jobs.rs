@@ -361,8 +361,11 @@ pub struct CloudBackupJobSetup {
             schema: JOB_ID_SCHEMA,
         },
         setup: {
-            type: TapeBackupJobSetup, CloudBackupJobSetup,
+            type: TapeBackupJobSetup,
         },
+        cloud_setup: {
+            type: CloudBackupJobSetup,
+        }
         comment: {
             optional: true,
             schema: SINGLE_LINE_COMMENT_SCHEMA,
@@ -410,24 +413,7 @@ pub struct TapeBackupJobStatus {
     pub next_media_label: Option<String>,
 }
 
-#[api(
-    properties: {
-        id: {
-            schema: JOB_ID_SCHEMA,
-        },
-        setup: {
-            type: CloudBackupJobSetup,
-        },
-        comment: {
-            optional: true,
-            schema: SINGLE_LINE_COMMENT_SCHEMA,
-        },
-        schedule: {
-            optional: true,
-            schema: SYNC_SCHEDULE_SCHEMA,
-        },
-    }
-)]
+
 #[derive(Serialize, Deserialize, Clone, Updater, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 /// Cloud Backup Job; Added by SK
@@ -435,7 +421,7 @@ pub struct CloudBackupJobConfig {
     #[updater(skip)]
     pub id: String,
     #[serde(flatten)]
-    pub setup: CloudBackupJobSetup,
+    pub cloud_setup: CloudBackupJobSetup,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub comment: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
