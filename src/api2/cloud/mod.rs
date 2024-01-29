@@ -6,6 +6,8 @@ use serde_json::Value;
 use proxmox_router::{list_subdirs_api_method, Router, SubdirMap};
 use proxmox_schema::api;
 
+pub mod backup;
+pub mod restore;
 
 #[api(
     input: {
