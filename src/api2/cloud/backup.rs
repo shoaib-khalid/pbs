@@ -35,16 +35,21 @@ fn returns_string_containing_list_of_cloud_backup_jobs() {
 }
 
 #[api(
-    returns: {
-        description: "Run all cloud backup job",
-        type: String,
+    input: {
+        properties: {
+            id: {
+                schema: JOB_ID_SCHEMA,
+            },
+        },
     },
     access: {
-        description: "List configured cloud jobs filtered by Cloud.Audit privileges - to be implemented for cloud",
+        // Note: parameters are from job config, so we need to test inside function body
+        description: "The user needs Tape.Write privilege on /tape/pool/{pool} \
+                      and /tape/drive/{drive}, Datastore.Read privilege on /datastore/{store}.",
         permission: &Permission::Anybody,
     },
 )]
-pub fn run_cloud_backup_job() -> String {
+pub fn run_cloud_backup_job(id: String, rpcenv) -> String {
     let cloud_backup_job_String: String = "Reply from Cloud run backup job";
     cloud_backup_job_String
 }
