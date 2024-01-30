@@ -6,6 +6,21 @@ use serde_json::Value;
 use proxmox_router::{list_subdirs_api_method, Router, SubdirMap};
 use proxmox_schema::api;
 
+pub mod backup;
+
+#[api(
+    input: {
+        properties: {},
+    },
+    returns: {
+        description: "Cloud backup.",
+        type: String,
+    },
+)]
+/// Cloud Hello
+pub fn cloud_hello(_param: Value) -> Result<String, Error> {
+    Ok("api2/json/cloud/cloud-hello cloud-hello-world".to_string())
+}
 
 #[api(
     input: {
