@@ -22,21 +22,8 @@ pub fn cloud_hello(_param: Value) -> Result<String, Error> {
     Ok("api2/json/cloud/cloud-hello cloud-hello-world".to_string())
 }
 
-#[api(
-    input: {
-        properties: {},
-    },
-    returns: {
-        description: "Cloud hello world.",
-        type: String,
-    },
-)]
-/// Cloud Hello
-pub fn cloud_hello(_param: Value) -> Result<String, Error> {
-    Ok("api2/json/cloud/cloud-hello cloud-hello-world".to_string())
-}
-
 const SUBDIRS: SubdirMap = &[
+    ("backup", &backup::ROUTER),    
     (
         "cloud-hello",
         &Router::new().get(&API_METHOD_CLOUD_HELLO),

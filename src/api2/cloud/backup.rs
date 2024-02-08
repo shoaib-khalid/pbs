@@ -1,70 +1,34 @@
-use anyhow::{bail, format_err, Error};
+use anyhow::Error;
 use serde_json::Value;
-
-use proxmox_router::{Permission, Router, RpcEnvironment, RpcEnvironmentType};
 use proxmox_schema::api;
+use proxmox_router::{list_subdirs_api_method, Router, SubdirMap};
 
-const CLOUD_BACKUP_JOB_ROUTER: Router = Router::new().post(&API_METHOD_RUN_CLOUD_BACKUP_JOB);
+// pub const ROUTER: Router = Router::new()
+//     .get(&API_METHOD_CLOUD_HELLO_BACKUP);
+
+const SUBDIRS: SubdirMap = &[
+    ("status", &Router::new().get(&API_METHOD_CLOUD_HELLO_BACKUP)),
+];
+
+const ITEM_ROUTER: Router = Router::new()
+    .get(&list_subdirs_api_method!(SUBDIRS))
+    .subdirs(SUBDIRS);
 
 pub const ROUTER: Router = Router::new()
-    .get(&API_METHOD_LIST_CLOUD_BACKUP_JOBS)
-    .post(&API_METHOD_BACKUP)
-    .match_all("id", &CLOUD_BACKUP_JOB_ROUTER);
-
-#[api(
-        returns: {
-            description: "List configured cloud backup jobs and their status",
-            type: String,
-        },
-        access: {
-            description: "List configured cloud jobs filtered by Cloud.Audit privileges - to be implemented for cloud",
-            permission: &Permission::Anybody,
-        },
-    )]
-/// List all cloud backup jobs
-pub fn list_cloud_backup_jobs() -> String {
-    let returnString: String = "This is the list of cloud backup jobs";
-    returnString
-}
-
-// Returns a string containing the list of cloud backup jobs when called.
-#[test]
-fn returns_string_containing_list_of_cloud_backup_jobs() {
-    let result = list_cloud_backup_jobs();
-    assert!(result.contains("This is the list of cloud backup jobs"));
-}
+    .get(&API_METHOD_CLOUD_HELLO_BACKUP)
+    .match_all("name", &ITEM_ROUTER);
 
 #[api(
     input: {
-        properties: {
-            id: {
-                schema: JOB_ID_SCHEMA,
-            },
-        },
+        properties: {},
     },
-    access: {
-        // Note: parameters are from job config, so we need to test inside function body
-        description: "The user needs Tape.Write privilege on /tape/pool/{pool} \
-                      and /tape/drive/{drive}, Datastore.Read privilege on /datastore/{store}.",
-        permission: &Permission::Anybody,
-    },
-)]
-pub fn run_cloud_backup_job(id: String, rpcenv) -> String {
-    let cloud_backup_job_String: String = "Reply from Cloud run backup job";
-    cloud_backup_job_String
-}
-#[api(
     returns: {
-        description: "Cloud backup",
+        description: "Cloud hello backup.",
         type: String,
     },
-    access: {
-        description: "Cloud Backup privilege(s) - to be implemented",
-        permission: &Permission::Anybody,
-    },
 )]
-/// List all cloud backup jobs
-pub fn backup() -> String {
-    let returnString: String = "This is cloud backup method";
-    returnString
+/// Cloud Hello
+pub fn cloud_hello_backup(_param: Value) -> Result<String, Error> {
+    let prm = _param.to_string();
+    Ok(format!("api2/json/cloud/backup cloud-hello-world and value is: {}", prm))
 }

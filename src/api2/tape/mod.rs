@@ -45,7 +45,9 @@ pub fn scan_drives(_param: Value) -> Result<Vec<TapeDeviceInfo>, Error> {
 )]
 /// List kalsym jobs
 pub fn run_tape_kalsym(_param: Value) -> Result<String, Error> {
-    Ok("/tape/run hello-tape-run from FAWAD 123".to_string())
+    print!("tape/run starting to progress");
+    log::error!("ERROR Method not implemented yet...");
+    Ok("/tape/run hello-tape-run METHOD NOT IMPLEMENTED YET".to_string())
 }
 
 
@@ -70,7 +72,6 @@ pub fn scan_changers(_param: Value) -> Result<Vec<TapeDeviceInfo>, Error> {
 
 const SUBDIRS: SubdirMap = &[
     ("backup", &backup::ROUTER),
-    ("kalsym", &kalsym::ROUTER),
     ("changer", &changer::ROUTER),
     ("drive", &drive::ROUTER),
     ("media", &media::ROUTER),
