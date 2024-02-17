@@ -16,9 +16,7 @@ use proxmox_schema::api;
 use proxmox_sys::{task_log, task_warn, WorkerTaskContext};
 
 use pbs_api_types::{
-    print_ns_and_snapshot, print_store_and_ns, Authid, MediaPoolConfig, Operation,
-    TapeBackupJobConfig, TapeBackupJobSetup, TapeBackupJobStatus, Userid, JOB_ID_SCHEMA,
-    PRIV_DATASTORE_READ, PRIV_TAPE_AUDIT, PRIV_TAPE_WRITE, UPID_SCHEMA,
+    print_ns_and_snapshot, print_store_and_ns, Authid, CloudBackupJobSetup, MediaPoolConfig, Operation, TapeBackupJobConfig, TapeBackupJobSetup, TapeBackupJobStatus, Userid, JOB_ID_SCHEMA, PRIV_DATASTORE_READ, PRIV_TAPE_AUDIT, PRIV_TAPE_WRITE, UPID_SCHEMA
 };
 
 use pbs_config::CachedUserInfo;
@@ -44,10 +42,6 @@ enum SnapshotBackupResult {
     Error,
     Ignored,
 }
-
-
-
-
 
 // pub const ROUTER: Router = Router::new()
 //     .get(&API_METHOD_CLOUD_HELLO_BACKUP);
@@ -123,7 +117,7 @@ pub fn cloud_hello_backup(_param: Value) -> Result<String, Error> {
         permission: &Permission::Anybody,
     },
 )]
-/// Backup datastore to tape media pool
+/// Backup datastore to cloud
 pub fn backup(
     setup: TapeBackupJobSetup,
     force_media_set: bool,
@@ -162,7 +156,7 @@ pub fn backup(
         to_stdout,
         move |worker| {
             let _drive_lock = drive_lock; // keep lock guard
-            set_tape_device_state(&setup.drive, &worker.upid().to_string())?;
+            //set_tape_device_state(&setup.drive, &worker.upid().to_string())?; // commenting out tape device state check
 
             let mut summary = Default::default();
             let job_result = backup_worker(
@@ -216,8 +210,7 @@ fn backup_worker(
 
     let pool = MediaPool::with_config(TAPE_STATUS_DIR, pool_config, changer_name, false)?;
 
-    let mut pool_writer =
-        PoolWriter::new(pool, &setup.drive, worker, email, force_media_set, ns_magic)?;
+    let mut pool_writer = PoolWriter::new(pool, &setup.drive, worker, email, force_media_set, ns_magic)?;
 
     let mut group_list = Vec::new();
     let namespaces = datastore.recursive_iter_backup_ns_ok(root_namespace, setup.max_depth)?;
@@ -291,14 +284,14 @@ fn backup_worker(
             if let Some(info) = snapshot_list.pop() {
                 let rel_path =
                     print_ns_and_snapshot(info.backup_dir.backup_ns(), info.backup_dir.as_ref());
-                if pool_writer.contains_snapshot(
-                    datastore_name,
-                    info.backup_dir.backup_ns(),
-                    info.backup_dir.as_ref(),
-                ) {
-                    task_log!(worker, "skip snapshot {}", rel_path);
-                    continue;
-                }
+                // if pool_writer.contains_snapshot(
+                //     datastore_name,
+                //     info.backup_dir.backup_ns(),
+                //     info.backup_dir.as_ref(),
+                // ) {
+                //     task_log!(worker, "skip snapshot {}", rel_path);
+                //     continue;
+                // }
 
                 need_catalog = true;
 
@@ -317,14 +310,14 @@ fn backup_worker(
                 let rel_path =
                     print_ns_and_snapshot(info.backup_dir.backup_ns(), info.backup_dir.as_ref());
 
-                if pool_writer.contains_snapshot(
-                    datastore_name,
-                    info.backup_dir.backup_ns(),
-                    info.backup_dir.as_ref(),
-                ) {
-                    task_log!(worker, "skip snapshot {}", rel_path);
-                    continue;
-                }
+                // if pool_writer.contains_snapshot(
+                //     datastore_name,
+                //     info.backup_dir.backup_ns(),
+                //     info.backup_dir.as_ref(),
+                // ) {
+                //     task_log!(worker, "skip snapshot {}", rel_path);
+                //     continue;
+                // }
 
                 need_catalog = true;
 
